@@ -1,0 +1,74 @@
+package uz.everbest.buxorossb.service.impl;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import uz.everbest.buxorossb.controller.vm.LoginVM;
+import uz.everbest.buxorossb.dto.AlertResponseDto;
+import uz.everbest.buxorossb.dto.JWTTokenDto;
+import uz.everbest.buxorossb.dto.user.CreationUserDto;
+import uz.everbest.buxorossb.dto.user.UserDto;
+import uz.everbest.buxorossb.entity.User;
+import uz.everbest.buxorossb.repository.UserRepository;
+import uz.everbest.buxorossb.service.UserService;
+import uz.everbest.buxorossb.service.mapper.CreationUserMapper;
+import uz.everbest.buxorossb.service.mapper.UserMapper;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final CreationUserMapper creationUserMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthServiceImpl authService;
+    private final HttpServletRequest httpServletRequest;
+
+    @Override
+    public Page<UserDto> findAll(Pageable pageable) {
+        Page<UserDto> users = userRepository.findAll(pageable).map(userMapper::toDto);
+        return users;
+    }
+
+    @Override
+    public Optional<UserDto> findOne(Long id) {
+        return userRepository.findById(id).map(userMapper::toDto);
+
+    }
+
+    @Override
+    public JWTTokenDto save(CreationUserDto userDto) {
+        User user = creationUserMapper.toEntity(userDto);
+        boolean existsByUsername = userRepository.existsByUsername(userDto.getUsername());
+
+        if (!userDto.getConfirmPassword().equals(userDto.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password and confirm password is not match");
+        }
+
+        // create
+        if (existsByUsername){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exits");
+        }
+
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userRepository.save(user);
+        JWTTokenDto jwtTokenDto = authService.loginUser(httpServletRequest,new LoginVM(userDto.getUsername(), userDto.getPassword()));
+        return jwtTokenDto;
+
+    }
+
+
+    @Override
+    public AlertResponseDto delete(Long id) {
+        userRepository.deleteById(id);
+        return new AlertResponseDto("User o'chirilmadi", false);
+    }
+}
