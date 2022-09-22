@@ -1,4 +1,4 @@
-package uz.everbest.buxorossb.dto.user;
+package uz.everbest.buxorossb.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

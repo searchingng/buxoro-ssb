@@ -7,11 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import uz.everbest.buxorossb.controller.vm.LoginVM;
-import uz.everbest.buxorossb.dto.AlertResponseDto;
-import uz.everbest.buxorossb.dto.JWTTokenDto;
-import uz.everbest.buxorossb.dto.user.CreationUserDto;
-import uz.everbest.buxorossb.dto.user.UserDto;
+import uz.everbest.buxorossb.dto.UserDto;
+import uz.everbest.buxorossb.dto.request.CreationUserDto;
+import uz.everbest.buxorossb.dto.response.AlertResponseDto;
 import uz.everbest.buxorossb.entity.User;
 import uz.everbest.buxorossb.repository.UserRepository;
 import uz.everbest.buxorossb.service.UserService;
@@ -45,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JWTTokenDto save(CreationUserDto userDto) {
+    public UserDto save(CreationUserDto userDto) {
         User user = creationUserMapper.toEntity(userDto);
         boolean existsByUsername = userRepository.existsByUsername(userDto.getUsername());
 
@@ -60,8 +58,8 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
-        JWTTokenDto jwtTokenDto = authService.loginUser(httpServletRequest,new LoginVM(userDto.getUsername(), userDto.getPassword()));
-        return jwtTokenDto;
+//        JWTTokenDto jwtTokenDto = authService.loginUser(httpServletRequest,new LoginVM(userDto.getUsername(), userDto.getPassword()));
+        return userMapper.toDto(user);
 
     }
 

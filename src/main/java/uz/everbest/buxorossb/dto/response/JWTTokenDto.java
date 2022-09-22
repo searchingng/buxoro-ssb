@@ -1,4 +1,4 @@
-package uz.everbest.buxorossb.dto;
+package uz.everbest.buxorossb.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

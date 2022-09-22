@@ -3,7 +3,7 @@ package uz.everbest.buxorossb.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import uz.everbest.buxorossb.dto.user.CreationUserDto;
+import uz.everbest.buxorossb.dto.request.CreationUserDto;
 import uz.everbest.buxorossb.entity.enums.Role;
 import uz.everbest.buxorossb.repository.UserRepository;
 import uz.everbest.buxorossb.service.UserService;
