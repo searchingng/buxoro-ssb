@@ -29,6 +29,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDto save(ArticleRequestDto requestDto) {
         Article article = articleRequestMapper.toEntity(requestDto);
+
+        if (requestDto.getId() != null && articleRepository.existsById(requestDto.getId())) {
+            Article old = findById(requestDto.getId());
+            checkOwner(old.getUserId());
+        }
+
         article.setStatus(ArticleStatus.DRAFT);
         article.setUserId(UserUtil.currentUser().getId());
         articleRepository.save(article);
@@ -49,6 +55,8 @@ public class ArticleServiceImpl implements ArticleService {
     private boolean changeStatus(Long articleId, ArticleStatus status){
         Article article = findById(articleId);
         article.setStatus(status);
+
+        checkOwner(article.getUserId());
 
         if (status.equals(ArticleStatus.PUBLISHED))
             article.setPublishedDate(LocalDateTime.now());
@@ -72,5 +80,10 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.BAD_REQUEST, "Article Not Found with ID: " + id
         ));
+    }
+
+    private void checkOwner(Long userId){
+        if (UserUtil.currentUser().getId().equals(userId))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "you are not owner of Article");
     }
 }
