@@ -2,10 +2,9 @@ package uz.everbest.buxorossb.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import uz.everbest.buxorossb.dto.AlertResponseDto;
-import uz.everbest.buxorossb.dto.JWTTokenDto;
-import uz.everbest.buxorossb.dto.user.CreationUserDto;
-import uz.everbest.buxorossb.dto.user.UserDto;
+import uz.everbest.buxorossb.dto.UserDto;
+import uz.everbest.buxorossb.dto.request.CreationUserDto;
+import uz.everbest.buxorossb.dto.response.AlertResponseDto;
 
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public interface UserService {
 
     Optional<UserDto> findOne(Long id);
 
-    JWTTokenDto save(CreationUserDto userDto);
+    UserDto save(CreationUserDto userDto);
 
     AlertResponseDto delete(Long id) throws Exception;
 }

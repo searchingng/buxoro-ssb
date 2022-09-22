@@ -82,6 +82,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/users/**").hasAnyAuthority(Role.ADMIN.name())
+                .antMatchers("/api/articles/**").hasAnyAuthority(Role.MODERATOR.name())
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest()
                 .authenticated();

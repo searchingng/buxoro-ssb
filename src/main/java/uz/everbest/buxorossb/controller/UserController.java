@@ -4,10 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.everbest.buxorossb.dto.AlertResponseDto;
-import uz.everbest.buxorossb.dto.JWTTokenDto;
-import uz.everbest.buxorossb.dto.user.CreationUserDto;
-import uz.everbest.buxorossb.dto.user.UserDto;
+import uz.everbest.buxorossb.dto.UserDto;
+import uz.everbest.buxorossb.dto.request.CreationUserDto;
+import uz.everbest.buxorossb.dto.response.AlertResponseDto;
 import uz.everbest.buxorossb.service.UserService;
 
 import javax.validation.Valid;
@@ -33,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<JWTTokenDto> createUser(@RequestBody @Valid CreationUserDto userDto) throws Exception {
+    public ResponseEntity<UserDto> createUser(@RequestBody @Valid CreationUserDto userDto) throws Exception {
         return ResponseEntity.ok(userService.save(userDto));
     }
 

@@ -1,4 +1,4 @@
-package uz.everbest.buxorossb.dto;
+package uz.everbest.buxorossb.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,4 +12,8 @@ import lombok.Setter;
 public class AlertResponseDto {
     private String message;
     private boolean success;
+
+    public AlertResponseDto(boolean success) {
+        this.success = success;
+    }
 }
