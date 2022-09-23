@@ -29,4 +29,6 @@ public class ArticleImage {
     @JoinColumn(name = "article_id", insertable = false, updatable = false)
     private Article article;
 
+    private Boolean isThumb;
+
 }

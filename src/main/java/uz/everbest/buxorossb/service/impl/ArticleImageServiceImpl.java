@@ -26,20 +26,33 @@ public class ArticleImageServiceImpl implements ArticleImageService {
         ArticleImage image = new ArticleImage();
         image.setArticleId(articleId);
         image.setPath(path);
+        image.setIsThumb(false);
         articleImageRepository.save(image);
         return image;
     }
 
     @Override
     public List<ArticleImage> reUploadBulk(Long articleId, List<MultipartFile> multiparts) {
-        return multiparts.stream()
+        deleteByArticleId(articleId);
+        List<ArticleImage> images = multiparts.stream()
                 .map(multipart -> upload(articleId, multipart))
                 .collect(Collectors.toList());
+
+        String thumbPath = uploadService.thumbnail(images.get(0).getPath());
+        ArticleImage thumb = new ArticleImage();
+        thumb.setArticleId(articleId);
+        thumb.setPath(thumbPath);
+        thumb.setIsThumb(true);
+        articleImageRepository.save(thumb);
+
+        images.add(0, thumb);
+
+        return images;
     }
 
     @Override
     public List<ArticleImage> findByArticleId(Long articleId) {
-        return null;
+        return articleImageRepository.findByArticleId(articleId);
     }
 
     @Override
@@ -53,11 +66,15 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
     @Override
     public void deleteById(Long imageId) {
+        ArticleImage image = findById(imageId);
+        uploadService.delete(image.getPath());
         articleImageRepository.deleteById(imageId);
     }
 
     @Override
     public void deleteByArticleId(Long articleId) {
+        List<ArticleImage> images = findByArticleId(articleId);
+        images.forEach(old -> uploadService.delete(old.getPath()));
         articleImageRepository.deleteByArticleId(articleId);
     }
 }
