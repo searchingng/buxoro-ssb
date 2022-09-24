@@ -28,7 +28,9 @@ public class User extends DateAudit implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    private String fio;
+    private String firstName;
+
+    private String lastName;
 
     @Column(nullable = false, unique = true)
     private String username;

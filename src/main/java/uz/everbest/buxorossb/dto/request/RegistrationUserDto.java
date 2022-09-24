@@ -14,8 +14,11 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class RegistrationUserDto {
 
-    @NotBlank(message = "F.I.O is required")
-    private String fio;
+    @NotBlank(message = "Firstname is required")
+    private String firstName;
+
+    private String lastName;
+
     @NotBlank(message = "Username is required")
     private String username;
     @NotBlank(message = "password is required")

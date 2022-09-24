@@ -22,7 +22,7 @@ public class DataLoader {
             return;
 
         CreationUserDto admin = new CreationUserDto();
-        admin.setFio("Admin");
+        admin.setFirstName("Admin");
         admin.setUsername("admin");
         admin.setPassword("pass");
         admin.setConfirmPassword("pass");

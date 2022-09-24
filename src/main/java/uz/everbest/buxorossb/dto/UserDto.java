@@ -13,7 +13,9 @@ import uz.everbest.buxorossb.entity.enums.Role;
 public class UserDto {
     private Long id;
 
-    private String fio;
+    private String firstName;
+
+    private String lastName;
 
     private String username;
 
