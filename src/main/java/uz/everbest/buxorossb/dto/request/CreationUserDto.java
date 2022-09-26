@@ -13,8 +13,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class CreationUserDto {
 
-    @NotBlank(message = "F.I.O is required")
-    private String fio;
+    @NotBlank(message = "Firstname is required")
+    private String firstName;
+
+    private String lastName;
+
     @NotBlank(message = "Username is required")
     private String username;
     @NotBlank(message = "password is required")
