@@ -1,18 +1,17 @@
 package uz.everbest.buxorossb.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class RegistrationUserDto {
+@AllArgsConstructor
+@Data
+public class DoctorRequest {
+
+    private Long id;
 
     @NotBlank(message = "Name is required")
     private String name;
@@ -22,8 +21,11 @@ public class RegistrationUserDto {
     @NotBlank(message = "password is required")
     private String password;
 
-    @JsonSetter
-    @NotBlank(message = "ConfirmPassword is required")
-    private String confirmPassword;
+    @NotBlank(message = "position is required")
+    private String position;
+
+    private Long organisationId;
+
+    private Long regionId;
 
 }

@@ -22,11 +22,10 @@ public class DataLoader {
             return;
 
         CreationUserDto admin = new CreationUserDto();
-        admin.setFirstName("Admin");
+        admin.setName("Admin");
         admin.setUsername("admin");
         admin.setPassword("pass");
         admin.setConfirmPassword("pass");
-        admin.setPhone("+998990001122");
         admin.setRole(Role.ADMIN);
 
         userService.save(admin);

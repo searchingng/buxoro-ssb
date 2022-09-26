@@ -16,7 +16,6 @@ import uz.everbest.buxorossb.service.UserService;
 import uz.everbest.buxorossb.service.mapper.CreationUserMapper;
 import uz.everbest.buxorossb.service.mapper.UserMapper;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
@@ -27,13 +26,10 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final CreationUserMapper creationUserMapper;
     private final PasswordEncoder passwordEncoder;
-    private final AuthServiceImpl authService;
-    private final HttpServletRequest httpServletRequest;
 
     @Override
     public Page<UserDto> findAll(Pageable pageable) {
-        Page<UserDto> users = userRepository.findAll(pageable).map(userMapper::toDto);
-        return users;
+        return userRepository.findAll(pageable).map(userMapper::toDto);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto save(CreationUserDto userDto) {
         User user = creationUserMapper.toEntity(userDto);
-        boolean existsByUsername = userRepository.existsByUsername(userDto.getUsername());
+        boolean existsByUsername = userRepository.existsByUsernameAndIdNot(userDto.getUsername(), userDto.getId());
 
         if (!userDto.getConfirmPassword().equals(userDto.getPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password and confirm password is not match");

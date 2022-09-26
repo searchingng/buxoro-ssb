@@ -1,7 +1,11 @@
 package uz.everbest.buxorossb.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,8 +17,8 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity(name = "users")
 @Getter
 @Setter
@@ -28,16 +32,12 @@ public class User extends DateAudit implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    private String firstName;
-
-    private String lastName;
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
-    private String phone;
 
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
@@ -74,6 +74,19 @@ public class User extends DateAudit implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
 
