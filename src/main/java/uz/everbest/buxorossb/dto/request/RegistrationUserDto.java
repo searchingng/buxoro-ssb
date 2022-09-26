@@ -14,10 +14,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class RegistrationUserDto {
 
-    @NotBlank(message = "Firstname is required")
-    private String firstName;
-
-    private String lastName;
+    @NotBlank(message = "Name is required")
+    private String name;
 
     @NotBlank(message = "Username is required")
     private String username;
@@ -27,7 +25,5 @@ public class RegistrationUserDto {
     @JsonSetter
     @NotBlank(message = "ConfirmPassword is required")
     private String confirmPassword;
-    @NotBlank(message = "phone is required")
-    private String phone;
 
 }
