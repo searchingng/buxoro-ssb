@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import uz.everbest.buxorossb.dto.ArticleDto;
 import uz.everbest.buxorossb.dto.request.ArticleRequestDto;
 import uz.everbest.buxorossb.dto.response.AlertResponseDto;
+import uz.everbest.buxorossb.dto.response.ArticleResponseDto;
 import uz.everbest.buxorossb.service.ArticleService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/articles")
@@ -37,8 +40,13 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ArticleDto>> getAll(Pageable pageable){
+    public ResponseEntity<Page<ArticleResponseDto>> getAll(Pageable pageable){
         return ResponseEntity.ok(articleService.getAll(pageable));
+    }
+
+    @GetMapping("/my-articles")
+    public ResponseEntity<List<ArticleDto>> getMyArticles(){
+        return ResponseEntity.ok(articleService.getMyArticles());
     }
 
     @GetMapping("/{articleId}")
