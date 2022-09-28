@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import uz.everbest.buxorossb.entity.DocType;
 import uz.everbest.buxorossb.entity.Region;
 import uz.everbest.buxorossb.entity.enums.Organisation;
+import uz.everbest.buxorossb.repository.DocTypeRepository;
 import uz.everbest.buxorossb.repository.OrganisationRepository;
 import uz.everbest.buxorossb.repository.RegionRepository;
 import uz.everbest.buxorossb.service.RegionService;
@@ -18,6 +20,7 @@ public class RegionServiceImpl implements RegionService {
 
     private final RegionRepository regionRepository;
     private final OrganisationRepository organisationRepository;
+    private final DocTypeRepository docTypeRepository;
 
     @Override
     public Region createRegion(Region region) {
@@ -27,6 +30,11 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public Organisation createOrganisation(Organisation organisation) {
         return organisationRepository.save(organisation);
+    }
+
+    @Override
+    public DocType createDocType(DocType docType) {
+        return docTypeRepository.save(docType);
     }
 
     @Override
@@ -40,6 +48,11 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
+    public List<DocType> findAllDocTypes() {
+        return docTypeRepository.findAll();
+    }
+
+    @Override
     public Region findRegionById(Long regionId) {
         return regionRepository.findById(regionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region not found"));
@@ -49,5 +62,11 @@ public class RegionServiceImpl implements RegionService {
     public Organisation findOrganisationById(Long organisationId) {
         return organisationRepository.findById(organisationId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Organisation not found"));
+    }
+
+    @Override
+    public DocType findDocTypeById(Long docTypeId) {
+        return docTypeRepository.findById(docTypeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "DocType Not found"));
     }
 }
