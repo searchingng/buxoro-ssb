@@ -4,7 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import uz.everbest.buxorossb.dto.ArticleDto;
 import uz.everbest.buxorossb.dto.request.ArticleRequestDto;
+import uz.everbest.buxorossb.dto.response.ArticleResponseDto;
 import uz.everbest.buxorossb.entity.Article;
+
+import java.util.List;
 
 public interface ArticleService {
 
@@ -14,7 +17,9 @@ public interface ArticleService {
 
     boolean deActive(Long articleId);
 
-    Page<ArticleDto> getAll(Pageable pageable);
+    Page<ArticleResponseDto> getAll(Pageable pageable);
+
+    List<ArticleDto> getMyArticles();
 
     ArticleDto getOne(Long id);
 

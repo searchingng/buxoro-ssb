@@ -8,23 +8,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import uz.everbest.buxorossb.dto.ArticleDto;
 import uz.everbest.buxorossb.dto.request.ArticleRequestDto;
+import uz.everbest.buxorossb.dto.response.ArticleResponseDto;
 import uz.everbest.buxorossb.entity.Article;
+import uz.everbest.buxorossb.entity.User;
 import uz.everbest.buxorossb.entity.enums.ArticleStatus;
 import uz.everbest.buxorossb.repository.ArticleRepository;
+import uz.everbest.buxorossb.service.ArticleImageService;
 import uz.everbest.buxorossb.service.ArticleService;
 import uz.everbest.buxorossb.service.mapper.ArticleMapper;
 import uz.everbest.buxorossb.service.mapper.ArticleRequestMapper;
+import uz.everbest.buxorossb.service.mapper.ArticleResponseMapper;
 import uz.everbest.buxorossb.util.UserUtil;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
 
+    private final ArticleImageService articleImageService;
     private final ArticleRepository articleRepository;
     private final ArticleMapper articleMapper;
     private final ArticleRequestMapper articleRequestMapper;
+    private final ArticleResponseMapper articleResponseMapper;
 
     @Override
     public ArticleDto save(ArticleRequestDto requestDto) {
@@ -66,8 +74,20 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<ArticleDto> getAll(Pageable pageable) {
-        return articleRepository.findAll(pageable).map(articleMapper::toDto);
+    public Page<ArticleResponseDto> getAll(Pageable pageable) {
+        return articleRepository
+                .findAllByStatusOrderByPublishedDateDesc(ArticleStatus.PUBLISHED, pageable)
+                .map(articleResponseMapper::toDto)
+                .map(article -> {
+                    article.setImages(articleImageService.findByArticleId(article.getId()));
+                    return article;
+                });
+    }
+
+    @Override
+    public List<ArticleDto> getMyArticles() {
+        User user = UserUtil.currentUser();
+        return findByUserId(user.getId());
     }
 
     @Override
@@ -83,7 +103,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private void checkOwner(Long userId){
-        if (UserUtil.currentUser().getId().equals(userId))
+        if (!UserUtil.currentUser().getId().equals(userId))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "you are not owner of Article");
     }
+
+    private List<ArticleDto> findByUserId(Long userId){
+        return articleRepository.findByUserId(userId)
+                .stream().map(articleMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

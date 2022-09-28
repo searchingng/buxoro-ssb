@@ -1,17 +1,18 @@
 package uz.everbest.buxorossb.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import uz.everbest.buxorossb.dto.ArticleImageDto;
 import uz.everbest.buxorossb.entity.ArticleImage;
 
 import java.util.List;
 
 public interface ArticleImageService {
 
-    ArticleImage upload(Long articleId, MultipartFile multipart);
+    ArticleImageDto upload(Long articleId, MultipartFile multipart);
 
-    List<ArticleImage> reUploadBulk(Long articleId, List<MultipartFile> multiparts);
+    List<ArticleImageDto> reUploadBulk(Long articleId, List<MultipartFile> multiparts);
 
-    List<ArticleImage> findByArticleId(Long articleId);
+    List<ArticleImageDto> findByArticleId(Long articleId);
 
     ArticleImage findById(Long imageId);
 
