@@ -1,5 +1,6 @@
 package uz.everbest.buxorossb.service;
 
+import uz.everbest.buxorossb.entity.DocType;
 import uz.everbest.buxorossb.entity.Region;
 import uz.everbest.buxorossb.entity.enums.Organisation;
 
@@ -11,12 +12,18 @@ public interface RegionService {
 
     Organisation createOrganisation(Organisation organisation);
 
+    DocType createDocType(DocType docType);
+
     List<Region> findAllRegions();
 
     List<Organisation> findAllOrganisations();
 
+    List<DocType> findAllDocTypes();
+
     Region findRegionById(Long regionId);
 
     Organisation findOrganisationById(Long organisationId);
+
+    DocType findDocTypeById(Long docTypeId);
 
 }

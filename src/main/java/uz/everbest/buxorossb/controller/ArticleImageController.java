@@ -32,18 +32,17 @@ public class ArticleImageController {
         return ResponseEntity.ok(articleImageService.reUploadBulk(articleId, multipartFiles));
     }
 
-    @GetMapping(produces = {"image/*"})
+    @GetMapping(produces = {"image/png", "image/jpeg", "image/gif"})
     public ResponseEntity<byte[]> open(@RequestParam("path") String path){
         return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_TYPE, "image/*")
                 .body(uploadService.getResource(path));
     }
 
-    @GetMapping(value = "/download", produces = {"image/*"})
+    @GetMapping(value = "/download", produces = {"image/png", "image/jpeg", "image/gif"})
     public ResponseEntity<byte[]> download(@RequestParam("path") String path){
         String fileName = path.substring(path.lastIndexOf("/") + 1);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, "image/*")
+                .header(HttpHeaders.CONTENT_TYPE, "image/png", "image/jpeg", "image/gif")
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .body(uploadService.getResource(path));
     }
