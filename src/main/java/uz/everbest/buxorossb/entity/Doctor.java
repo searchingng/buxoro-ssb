@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uz.everbest.buxorossb.entity.audit.DateAudit;
 import uz.everbest.buxorossb.entity.enums.DoctorStatus;
 import uz.everbest.buxorossb.entity.enums.Organisation;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Doctor {
+public class Doctor extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

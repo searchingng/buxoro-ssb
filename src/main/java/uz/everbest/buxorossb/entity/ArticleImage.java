@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uz.everbest.buxorossb.entity.audit.DateAudit;
 
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ArticleImage {
+public class ArticleImage extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
