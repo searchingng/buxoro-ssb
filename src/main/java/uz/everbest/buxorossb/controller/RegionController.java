@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.everbest.buxorossb.entity.DocType;
+import uz.everbest.buxorossb.entity.Organisation;
 import uz.everbest.buxorossb.entity.Region;
-import uz.everbest.buxorossb.entity.enums.Organisation;
 import uz.everbest.buxorossb.service.RegionService;
 
 import java.util.List;
