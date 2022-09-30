@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.everbest.buxorossb.entity.audit.DateAudit;
+import uz.everbest.buxorossb.entity.enums.ImageType;
 
 import javax.persistence.*;
 
@@ -30,6 +31,7 @@ public class ArticleImage extends DateAudit {
     @JoinColumn(name = "article_id", insertable = false, updatable = false)
     private Article article;
 
-    private Boolean isThumb;
+    @Enumerated(EnumType.STRING)
+    private ImageType type;
 
 }
