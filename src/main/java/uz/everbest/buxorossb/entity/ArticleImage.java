@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uz.everbest.buxorossb.entity.audit.DateAudit;
+import uz.everbest.buxorossb.entity.enums.ImageType;
 
 import javax.persistence.*;
 
@@ -14,7 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ArticleImage {
+public class ArticleImage extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +31,7 @@ public class ArticleImage {
     @JoinColumn(name = "article_id", insertable = false, updatable = false)
     private Article article;
 
-    private Boolean isThumb;
+    @Enumerated(EnumType.STRING)
+    private ImageType type;
 
 }

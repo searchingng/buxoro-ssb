@@ -14,13 +14,13 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     Page<Doctor> findAllByStatus(DoctorStatus status, Pageable pageable);
 
-    @Query(value = "SELECT d FROM doctor d WHERE d.status = 'ACTIVE' AND d.region_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT d.* FROM doctor d WHERE d.status = 'ACTIVE' AND d.region_id = ?1", nativeQuery = true)
     List<Doctor> findByRegionId(Long regionId);
 
-    @Query(value = "SELECT d FROM doctor d WHERE d.status = 'ACTIVE' AND d.organisation_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT d.* FROM doctor d WHERE d.status = 'ACTIVE' AND d.organisation_id = ?1", nativeQuery = true)
     List<Doctor> findByOrganisationId(Long organisationId);
 
-    @Query(value = "SELECT d FROM doctor d WHERE d.status = 'ACTIVE' AND d.user_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT d.* FROM doctor d WHERE d.status = 'ACTIVE' AND d.user_id = ?1", nativeQuery = true)
     Optional<Doctor> findByUserId(Long userId);
 
 }

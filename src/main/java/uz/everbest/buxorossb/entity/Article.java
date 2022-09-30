@@ -21,8 +21,10 @@ public class Article extends DateAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "title", columnDefinition = "TEXT")
     private String title;
 
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime publishedDate;
