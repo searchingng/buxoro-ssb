@@ -38,7 +38,7 @@ public class DoctorServiceImpl implements DoctorService {
     private final DoctorMapper doctorMapper;
 
     @Override
-    public DoctorDto save(DoctorRequest request) {
+    public DoctorRequest save(DoctorRequest request) {
         CreationUserDto creationUser = doctorRequestMapper.toEntity(request);
         if (request.getId() != null && doctorRepository.existsById(request.getId())){
             Doctor old = findById(request.getId());
@@ -53,7 +53,8 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setStatus(DoctorStatus.ACTIVE);
         doctor.setUserId(user.getId());
         doctorRepository.save(doctor);
-        return getById(doctor.getId());
+        request.setId(doctor.getId());
+        return request;
     }
 
     @Override

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.everbest.buxorossb.entity.audit.DateAudit;
 import uz.everbest.buxorossb.entity.enums.DoctorStatus;
-import uz.everbest.buxorossb.entity.enums.Organisation;
 
 import javax.persistence.*;
 
