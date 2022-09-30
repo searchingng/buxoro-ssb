@@ -7,10 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.everbest.buxorossb.dto.ArticleImageDto;
+import uz.everbest.buxorossb.dto.response.AlertResponseDto;
 import uz.everbest.buxorossb.service.ArticleImageService;
 import uz.everbest.buxorossb.service.UploadService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/articles/images")
@@ -26,12 +25,6 @@ public class ArticleImageController {
         return ResponseEntity.ok(articleImageService.upload(articleId, multipartFile));
     }
 
-    @PostMapping(value = "/bulk/{articleId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<ArticleImageDto>> uploadBulk(@PathVariable("articleId") Long articleId,
-                                                         @RequestParam("files") List<MultipartFile> multipartFiles){
-        return ResponseEntity.ok(articleImageService.reUploadBulk(articleId, multipartFiles));
-    }
-
     @GetMapping(produces = {"image/png", "image/jpeg", "image/gif"})
     public ResponseEntity<byte[]> open(@RequestParam("path") String path){
         return ResponseEntity.ok()
@@ -45,6 +38,12 @@ public class ArticleImageController {
                 .header(HttpHeaders.CONTENT_TYPE, "image/png", "image/jpeg", "image/gif")
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .body(uploadService.getResource(path));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<AlertResponseDto> deleteByPath(@RequestParam("path") String path){
+        articleImageService.deleteByPath(path);
+        return ResponseEntity.ok(new AlertResponseDto(true));
     }
 
 }

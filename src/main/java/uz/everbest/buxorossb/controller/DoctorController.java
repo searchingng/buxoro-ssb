@@ -18,7 +18,7 @@ public class DoctorController {
     private final DoctorService doctorService;
 
     @PostMapping
-    public ResponseEntity<DoctorDto> createDoctor(@RequestBody DoctorRequest request){
+    public ResponseEntity<DoctorRequest> createDoctor(@RequestBody DoctorRequest request){
         return ResponseEntity.ok(doctorService.save(request));
     }
 

@@ -3,6 +3,7 @@ package uz.everbest.buxorossb.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.everbest.buxorossb.entity.enums.ImageType;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,6 +14,6 @@ public class ArticleImageDto {
 
     private String path;
 
-    private Boolean isThumb;
+    private ImageType type;
 
 }

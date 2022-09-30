@@ -10,13 +10,15 @@ public interface ArticleImageService {
 
     ArticleImageDto upload(Long articleId, MultipartFile multipart);
 
-    List<ArticleImageDto> reUploadBulk(Long articleId, List<MultipartFile> multiparts);
+    ArticleImageDto createThumb(Long articleId, String path);
 
     List<ArticleImageDto> findByArticleId(Long articleId);
 
     ArticleImage findById(Long imageId);
 
-    void deleteById(Long imageId);
+    ArticleImage findByPath(String path);
+
+    void deleteByPath(String path);
 
     void deleteByArticleId(Long articleId);
 }

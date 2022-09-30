@@ -8,11 +8,13 @@ import uz.everbest.buxorossb.entity.Doctor;
 
 public interface DoctorService {
 
-    DoctorDto save(DoctorRequest request);
+    DoctorRequest save(DoctorRequest request);
 
     Page<DoctorDto> findAll(Pageable pageable);
 
     Doctor findById(Long doctorId);
+
+    Doctor findCurrent();
 
     DoctorDto getById(Long id);
 
