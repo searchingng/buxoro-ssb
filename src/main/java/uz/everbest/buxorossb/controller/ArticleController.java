@@ -50,7 +50,7 @@ public class ArticleController {
     }
 
     @GetMapping("/{articleId}")
-    public ResponseEntity<ArticleDto> getOne(@PathVariable("articleId") Long articleId){
+    public ResponseEntity<ArticleResponseDto> getOne(@PathVariable("articleId") Long articleId){
         return ResponseEntity.ok(articleService.getOne(articleId));
     }
 

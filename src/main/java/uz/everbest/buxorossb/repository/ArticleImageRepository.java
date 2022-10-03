@@ -15,6 +15,8 @@ public interface ArticleImageRepository extends JpaRepository<ArticleImage, Long
 
     boolean existsByArticleIdAndType(Long articleId, ImageType type);
 
+    ArticleImage findByArticleIdAndType(Long articleId, ImageType type);
+
     Optional<ArticleImage> findByPath(String path);
 
     @Transactional

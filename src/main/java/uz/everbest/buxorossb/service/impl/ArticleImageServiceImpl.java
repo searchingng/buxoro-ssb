@@ -30,19 +30,25 @@ public class ArticleImageServiceImpl implements ArticleImageService {
         ArticleImage image = new ArticleImage();
         image.setArticleId(articleId);
         image.setPath(path);
-
-        if (!articleImageRepository.existsByArticleIdAndType(articleId, ImageType.THUMB)){
-            createThumb(articleId, path);
-            image.setType(ImageType.MAIN);
-        } else {
-            image.setType(ImageType.SIMPLE);
-        }
+        image.setType(ImageType.SIMPLE);
         articleImageRepository.save(image);
         return articleImageMapper.toDto(image);
     }
 
     @Override
+    public ArticleImageDto uploadThumb(Long articleId, MultipartFile multipart) {
+        String path = upload(articleId, multipart).getPath();
+        return createThumb(articleId, path);
+    }
+
+    @Override
     public ArticleImageDto createThumb(Long articleId, String path) {
+
+        if (articleImageRepository.existsByArticleIdAndType(articleId, ImageType.THUMB)){
+            ArticleImage image = articleImageRepository.findByArticleIdAndType(articleId, ImageType.THUMB);
+            deleteByPath(image.getPath());
+        }
+
         String thumbPath = uploadService.thumbnail(path);
         ArticleImage thumb = new ArticleImage();
         thumb.setArticleId(articleId);
@@ -57,6 +63,12 @@ public class ArticleImageServiceImpl implements ArticleImageService {
         return articleImageRepository.findByArticleId(articleId)
                 .stream().map(articleImageMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ArticleImageDto findThumbByArticleId(Long articleId) {
+        ArticleImage image = articleImageRepository.findByArticleIdAndType(articleId, ImageType.THUMB);
+        return articleImageMapper.toDto(image);
     }
 
     @Override
@@ -80,10 +92,4 @@ public class ArticleImageServiceImpl implements ArticleImageService {
         articleImageRepository.deleteByPath(path);
     }
 
-    @Override
-    public void deleteByArticleId(Long articleId) {
-        List<ArticleImageDto> images = findByArticleId(articleId);
-        images.forEach(old -> uploadService.delete(old.getPath()));
-        articleImageRepository.deleteByArticleId(articleId);
-    }
 }

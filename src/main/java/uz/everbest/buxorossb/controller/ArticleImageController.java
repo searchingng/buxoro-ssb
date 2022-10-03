@@ -25,6 +25,12 @@ public class ArticleImageController {
         return ResponseEntity.ok(articleImageService.upload(articleId, multipartFile));
     }
 
+    @PostMapping(value = "/upload-thumb/{articleId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ArticleImageDto> uploadThumb(@PathVariable("articleId") Long articleId,
+                                                  @RequestParam("file") MultipartFile multipartFile){
+        return ResponseEntity.ok(articleImageService.uploadThumb(articleId, multipartFile));
+    }
+
     @GetMapping(produces = {"image/png", "image/jpeg", "image/gif"})
     public ResponseEntity<byte[]> open(@RequestParam("path") String path){
         return ResponseEntity.ok()

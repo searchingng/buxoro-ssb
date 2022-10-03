@@ -79,7 +79,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .findAllByStatusOrderByPublishedDateDesc(ArticleStatus.PUBLISHED, pageable)
                 .map(articleResponseMapper::toDto)
                 .map(article -> {
-                    article.setImages(articleImageService.findByArticleId(article.getId()));
+                    article.setThumbnail(articleImageService.findThumbByArticleId(article.getId()));
                     return article;
                 });
     }
@@ -92,7 +92,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleResponseDto getOne(Long id) {
-        return articleResponseMapper.toDto(findById(id));
+        ArticleResponseDto dto = articleResponseMapper.toDto(findById(id));
+        dto.setThumbnail(articleImageService.findThumbByArticleId(id));
+        return dto;
     }
 
     @Override

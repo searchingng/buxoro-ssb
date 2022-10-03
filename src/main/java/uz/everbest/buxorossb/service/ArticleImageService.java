@@ -10,9 +10,13 @@ public interface ArticleImageService {
 
     ArticleImageDto upload(Long articleId, MultipartFile multipart);
 
+    ArticleImageDto uploadThumb(Long articleId, MultipartFile multipart);
+
     ArticleImageDto createThumb(Long articleId, String path);
 
     List<ArticleImageDto> findByArticleId(Long articleId);
+
+    ArticleImageDto findThumbByArticleId(Long articleId);
 
     ArticleImage findById(Long imageId);
 
@@ -20,5 +24,4 @@ public interface ArticleImageService {
 
     void deleteByPath(String path);
 
-    void deleteByArticleId(Long articleId);
 }
