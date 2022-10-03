@@ -7,6 +7,7 @@ import uz.everbest.buxorossb.dto.ArticleImageDto;
 import uz.everbest.buxorossb.entity.enums.ArticleStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,5 +29,7 @@ public class ArticleResponseDto {
     private ArticleStatus status;
 
     private ArticleImageDto thumbnail;
+
+    private List<ArticleImageDto> images;
 
 }

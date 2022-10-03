@@ -37,7 +37,7 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
     @Override
     public ArticleImageDto uploadThumb(Long articleId, MultipartFile multipart) {
-        String path = upload(articleId, multipart).getPath();
+        String path = uploadService.upload(multipart);
         return createThumb(articleId, path);
     }
 
@@ -45,8 +45,7 @@ public class ArticleImageServiceImpl implements ArticleImageService {
     public ArticleImageDto createThumb(Long articleId, String path) {
 
         if (articleImageRepository.existsByArticleIdAndType(articleId, ImageType.THUMB)){
-            ArticleImage image = articleImageRepository.findByArticleIdAndType(articleId, ImageType.THUMB);
-            deleteByPath(image.getPath());
+            articleImageRepository.deleteByArticleIdAndType(articleId, ImageType.THUMB);
         }
 
         String thumbPath = uploadService.thumbnail(path);
@@ -60,14 +59,15 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
     @Override
     public List<ArticleImageDto> findByArticleId(Long articleId) {
-        return articleImageRepository.findByArticleId(articleId)
+        return articleImageRepository.findSimpleByArticleId(articleId)
                 .stream().map(articleImageMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public ArticleImageDto findThumbByArticleId(Long articleId) {
-        ArticleImage image = articleImageRepository.findByArticleIdAndType(articleId, ImageType.THUMB);
+        ArticleImage image = articleImageRepository.findThumbByArticleId(articleId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Image Not Found"));
         return articleImageMapper.toDto(image);
     }
 

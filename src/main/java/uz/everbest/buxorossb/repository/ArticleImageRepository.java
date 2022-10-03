@@ -2,6 +2,7 @@ package uz.everbest.buxorossb.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import uz.everbest.buxorossb.entity.ArticleImage;
 import uz.everbest.buxorossb.entity.enums.ImageType;
@@ -11,11 +12,13 @@ import java.util.Optional;
 
 public interface ArticleImageRepository extends JpaRepository<ArticleImage, Long> {
 
-    List<ArticleImage> findByArticleId(Long articleId);
+    @Query("SELECT i FROM ArticleImage i WHERE i.articleId = ?1 AND i.type = 'SIMPLE'")
+    List<ArticleImage> findSimpleByArticleId(Long articleId);
+
+    @Query("SELECT i FROM ArticleImage i WHERE i.articleId = ?1 AND i.type = 'THUMB'")
+    Optional<ArticleImage> findThumbByArticleId(Long articleId);
 
     boolean existsByArticleIdAndType(Long articleId, ImageType type);
-
-    ArticleImage findByArticleIdAndType(Long articleId, ImageType type);
 
     Optional<ArticleImage> findByPath(String path);
 
@@ -25,6 +28,6 @@ public interface ArticleImageRepository extends JpaRepository<ArticleImage, Long
 
     @Transactional
     @Modifying
-    void deleteByArticleId(Long articleId);
+    void deleteByArticleIdAndType(Long articleId, ImageType type);
 
 }

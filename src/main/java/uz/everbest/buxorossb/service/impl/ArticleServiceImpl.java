@@ -80,6 +80,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(articleResponseMapper::toDto)
                 .map(article -> {
                     article.setThumbnail(articleImageService.findThumbByArticleId(article.getId()));
+                    article.setImages(articleImageService.findByArticleId(article.getId()));
                     return article;
                 });
     }
@@ -94,6 +95,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleResponseDto getOne(Long id) {
         ArticleResponseDto dto = articleResponseMapper.toDto(findById(id));
         dto.setThumbnail(articleImageService.findThumbByArticleId(id));
+        dto.setImages(articleImageService.findByArticleId(id));
         return dto;
     }
 
