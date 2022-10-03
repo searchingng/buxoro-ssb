@@ -21,7 +21,7 @@ public interface ArticleService {
 
     List<ArticleDto> getMyArticles();
 
-    ArticleDto getOne(Long id);
+    ArticleResponseDto getOne(Long id);
 
     Article findById(Long id);
 

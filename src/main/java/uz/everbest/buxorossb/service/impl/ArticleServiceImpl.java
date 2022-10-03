@@ -91,8 +91,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleDto getOne(Long id) {
-        return articleMapper.toDto(findById(id));
+    public ArticleResponseDto getOne(Long id) {
+        return articleResponseMapper.toDto(findById(id));
     }
 
     @Override
