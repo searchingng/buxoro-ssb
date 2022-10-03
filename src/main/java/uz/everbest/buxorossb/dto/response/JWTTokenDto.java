@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import uz.everbest.buxorossb.dto.UserDto;
+import uz.everbest.buxorossb.entity.enums.Role;
 
 @Getter
 @Setter
@@ -14,7 +14,8 @@ import uz.everbest.buxorossb.dto.UserDto;
 public class JWTTokenDto {
     private String token;
     private boolean success;
-    private UserDto user;
+    private String name;
+    private Role role;
 
     public JWTTokenDto(String token) {
         this.token = token;

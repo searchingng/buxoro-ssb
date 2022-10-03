@@ -47,9 +47,10 @@ public class AuthServiceImpl implements AuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
             userSessionService.save(request, (User) authentication.getPrincipal(), jwt);
-            return new JWTTokenDto(jwt, true, userMapper.toDto((User) authentication.getPrincipal()));
+            User user = (User) authentication.getPrincipal();
+            return new JWTTokenDto(jwt, true, user.getName(), user.getRole());
         } catch (Exception e) {
-            return (new JWTTokenDto("Username or Password invalid", false, null));
+            return (new JWTTokenDto("Username or Password invalid", false, null, null));
         }
     }
 
