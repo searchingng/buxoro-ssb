@@ -34,6 +34,7 @@ public class ArticleImageController {
     @GetMapping(produces = {"image/png", "image/jpeg", "image/gif"})
     public ResponseEntity<byte[]> open(@RequestParam("path") String path){
         return ResponseEntity.ok()
+                .header(HttpHeaders.CACHE_CONTROL, "max-age=864000, public")
                 .body(uploadService.getResource(path));
     }
 
@@ -41,6 +42,7 @@ public class ArticleImageController {
     public ResponseEntity<byte[]> download(@RequestParam("path") String path){
         String fileName = path.substring(path.lastIndexOf("/") + 1);
         return ResponseEntity.ok()
+                .header(HttpHeaders.CACHE_CONTROL, "max-age=864000, public")
                 .header(HttpHeaders.CONTENT_TYPE, "image/png", "image/jpeg", "image/gif")
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .body(uploadService.getResource(path));

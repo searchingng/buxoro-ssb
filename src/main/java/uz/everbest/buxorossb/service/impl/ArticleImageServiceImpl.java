@@ -67,7 +67,7 @@ public class ArticleImageServiceImpl implements ArticleImageService {
     @Override
     public ArticleImageDto findThumbByArticleId(Long articleId) {
         ArticleImage image = articleImageRepository.findThumbByArticleId(articleId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Image Not Found"));
+                .orElse(null);
         return articleImageMapper.toDto(image);
     }
 
