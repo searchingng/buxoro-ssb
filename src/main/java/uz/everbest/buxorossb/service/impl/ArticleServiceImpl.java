@@ -106,6 +106,12 @@ public class ArticleServiceImpl implements ArticleService {
         ));
     }
 
+    @Override
+    public void deleteById(Long articleId) {
+        articleImageService.deleteByArticleId(articleId);
+        articleRepository.deleteById(articleId);
+    }
+
     private void checkOwner(Long userId){
         if (!UserUtil.currentUser().getId().equals(userId))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "you are not owner of Article");

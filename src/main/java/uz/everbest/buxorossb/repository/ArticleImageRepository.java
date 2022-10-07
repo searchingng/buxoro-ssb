@@ -30,4 +30,8 @@ public interface ArticleImageRepository extends JpaRepository<ArticleImage, Long
     @Modifying
     void deleteByArticleIdAndType(Long articleId, ImageType type);
 
+    @Transactional
+    @Modifying
+    void deleteByArticleId(Long articleId);
+
 }

@@ -54,5 +54,11 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.getOne(articleId));
     }
 
+    @DeleteMapping("/{articleId}")
+    public ResponseEntity<AlertResponseDto> delete(@PathVariable("articleId") Long articleId){
+        articleService.deleteById(articleId);
+        return ResponseEntity.ok(new AlertResponseDto(true));
+    }
+
 
 }

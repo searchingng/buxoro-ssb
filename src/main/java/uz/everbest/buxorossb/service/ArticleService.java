@@ -25,4 +25,5 @@ public interface ArticleService {
 
     Article findById(Long id);
 
+    void deleteById(Long articleId);
 }

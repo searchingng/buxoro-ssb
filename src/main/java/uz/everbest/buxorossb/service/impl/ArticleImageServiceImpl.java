@@ -92,4 +92,9 @@ public class ArticleImageServiceImpl implements ArticleImageService {
         articleImageRepository.deleteByPath(path);
     }
 
+    @Override
+    public void deleteByArticleId(Long articleId) {
+        articleImageRepository.deleteByArticleId(articleId);
+    }
+
 }

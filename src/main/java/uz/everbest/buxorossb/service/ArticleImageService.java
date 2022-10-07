@@ -24,4 +24,5 @@ public interface ArticleImageService {
 
     void deleteByPath(String path);
 
+    void deleteByArticleId(Long articleId);
 }
